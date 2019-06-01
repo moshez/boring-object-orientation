@@ -16,38 +16,139 @@
 
 \begin{frame}[fragile]
 \frametitle{Python and object oriented programming}
+
+Everything is an object
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Why OO design principles?}
+
+Guidelines to code that is easy to maintain
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Do OO design principles work?}
+
+Yes
+\pause
+...but
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Why declare interfaces?}
+
+Explicit is better than implicit
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Declaring interfaces with zope.interface}
+
+\begin{lstlisting}
+from zope import interface
+
+class ISprite(interface.Interface):
+
+    bounding_box = interface.Attribute(
+        "The bounding box"
+    )
+
+    def intersects(self, box):
+        "Does this intersect with a box"
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Testing for interface provision}
+
+\begin{lstlisting}
+from zope.interface import verify
+
+def test_implementation():
+    sprite = make_sprite()
+    verify.verifyObject(ISprit, sprite)
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Boring vs. interesting constructors}
+\frametitle{Interesting constructor}
+
+\begin{lstlisting}
+class Stuff:
+
+    def __init__(self, fname):
+        # Create a new object
+        self.destination = Destination()
+        # Call a system call
+        self.finput = open(fname)
+\end{lstlisting}
+
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Boring constructor}
+
+\begin{lstlisting}
+class Stuff:
+
+    def __init__(self, finput, destination):
+        self.destination = destination
+        self.finput = finput
+
+    @classmethod
+    def from_name(cls, name):
+        # Create a new object
+        destination = Destination()
+        # Call a system call
+        finput = open(fname)
+        return cls(finput, destination)
+\end{lstlisting}
+
+\end{frame}
+
 
 \begin{frame}[fragile]
 \frametitle{Why boring constructors}
+
+\begin{itemize}
+\item No partial objects
+\item Easier testing
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Using attrs}
+
+\begin{lstlisting}
+import attr
+
+@attr.s(auto_attribs=True)
+class Stuff:
+    finput: Any
+    destination: Any
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Immutable objects}
+
+\begin{lstlisting}
+>>> @attr.s(auto_attribs=True, frozen=True)
+... class Stuff:
+...     destination: Any
+...     finput: Any
+... 
+>>> my_stuff = Stuff(Destination(), io.StringIO())
+>>> my_stuff.finput = io.StringIO()
+Traceback (most recent call last):
+...
+    raise FrozenInstanceError()
+attr.exceptions.FrozenInstanceError
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
