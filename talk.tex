@@ -153,22 +153,67 @@ attr.exceptions.FrozenInstanceError
 
 \begin{frame}[fragile]
 \frametitle{Immutablity as bug avoidance}
+
+\begin{lstlisting}
+def some_function(some_list=[]):
+    pass
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Immutablity as interface simplifying}
+
+No variation, no invariant breakage!
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Frozen attrs}
+
+\begin{lstlisting}
+>>> @attr.s(auto_attribs=True, frozen=True)
+... class Point:
+...     x: float
+...     y: float
+... 
+>>> origin = Point(0, 0)
+>>> up = attr.evolve(origin, y=1)
+>>> origin, up
+(Point(x=0, y=0), Point(x=0, y=1))
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Private methods vs attributes}
+\frametitle{Private methods}
+
+\begin{lstlisting}
+class HTTPSession:
+    def _request(self, method, url):
+        pass
+    def get(self, url):
+        return self._request('GET', url)
+    def head(self, url):
+        return self._request('HEAD', url)
+\end{lstlisting}
+    
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Refactoring private methods away}
+
+\begin{lstlisting}
+class RawHTTPSession:
+    def request(self, method, url):
+        pass
+class HTTPSession:
+    _raw: RawHTTPSession
+    def get(self, url):
+        return self._raw.request('GET', url)
+    def head(self, url):
+        return self._raw.request('HEAD', url)
+\end{lstlisting}
+    
 \end{frame}
 
 \begin{frame}[fragile]
