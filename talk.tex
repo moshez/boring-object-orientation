@@ -218,15 +218,65 @@ class HTTPSession:
 
 \begin{frame}[fragile]
 \frametitle{Methods}
+
+\begin{lstlisting}
+@attr.s(auto_attribs=True, frozen=True)
+class Point2D:
+    x: float
+    y: float
+
+    def distance_from_origin(self):
+        return (self.x**2 + self.y**2) ** 0.5
+
+@attr.s(auto_attribs=True, frozen=True)
+class Point3D:
+    x: float
+    y: float
+    z: float
+
+    def distance_from_origin(self):
+        return (self.x**2 + self.y**2 + self.z**2) ** 0.5
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{singledispatch}
+\frametitle{Why not methods?}
+
+Bloats classes
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{singledispatch example}
+
+\begin{lstlisting}
+@attr.s(auto_attribs=True, frozen=True)
+class Point2D:
+    x: float
+    y: float
+
+@attr.s(auto_attribs=True, frozen=True)
+class Point3D:
+    x: float
+    y: float
+    z: float
+
+@functools.singledispatch
+def distance_from_origin(thing):
+    raise NotImplementedError(thing)
+
+@distance_from_origin.register(Point2D)
+def distance_2d(thing):
+    return (thing.x**2 + thing.y**2) ** 0.5
+
+@distance_from_origin.register(Point3D)
+def distance_3d(thing):
+    return (thing.x**2 + thing.y**2 + thing.z**2) ** 0.5
+\end{lstlisting}
+
 \end{frame}
+
 
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Examples in the wild}
