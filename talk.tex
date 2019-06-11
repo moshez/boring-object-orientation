@@ -280,34 +280,94 @@ def distance_3d(thing):
 
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Examples in the wild}
+
+\begin{itemize}
+\item Twisted \pause
+\item Django \pause
+\item Jupyter
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Issues}
+
+"Shared everything"
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Composition}
+
+\begin{itemize}
+\item Define *interface*
+\item Useful behavior in *referred class*
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Composition example}
+Sans-IO
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Composition: Simple example}
+\begin{lstlisting}
+class IMovable(interface.Interface):
+    x_position = interface.Attribute()
+    y_position = interface.Attribute()
+    def tick():
+        pass
+
+@interface.implementer(IMovable)
+@attr.s(auto_attribs=True):
+class StraightLine:
+    dx: float
+    dy: float
+    x_position: float
+    y_position: float
+    def tick(self):
+        self.x_position += dx
+        self.y_position += dy
+
+@interface.implementer(IMovable)
+@attr.s(auto_attribs=True):
+class Sprite:
+     _movable: IMovable
+     @property
+     def x_position(self): return self._movable.x_position
+     @property
+     def y_position(self): return self._movable.y_position
+     def tick(self): return self._movable.tick()
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Python: Language of the free}
+
+Diamond inheritance with overriddable constructors as mandatory interface?
+Sure!
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{With Great Power}
+
+Diamond inheritance with overriddable constructors as mandatory interface?
+....Maybe not!
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Lessons Learned}
+
+Big systems, big headaches
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Less interesting code}
+
+Be dumb as possible when writing code.
+
 \end{frame}
 
 \end{document}
