@@ -20,11 +20,43 @@
 Everything is an object
 \end{frame}
 
+In Python,
+everything is an object.
+Python is based,
+roughly,
+on the Smalltalk model of objects.
+It is inspired by the tradition of object-oriented programming.
+
 \begin{frame}[fragile]
 \frametitle{Why OO design principles?}
 
 Guidelines to code that is easy to maintain
 \end{frame}
+
+As object-oriented programming matured,
+the discipline of
+*object-oriented design* started forming.
+This discipline is meant to give guidance
+about mapping the
+*problem domain*
+to the
+*class and object structure*.
+
+Concepts like the difference between
+has-a
+and
+is-a
+belong in this discipline.
+Another famous concept in the discipline
+is
+SOLID:
+Single responsibility principle,
+Open-closed principle,
+Liskov substitution,
+Interface segregation,
+and Dependency inversion.
+
+
 
 \begin{frame}[fragile]
 \frametitle{Do OO design principles work?}
@@ -34,11 +66,42 @@ Yes
 ...but
 \end{frame}
 
+In general,
+good OO princples do apply to Python.
+They have been carefully thought out,
+and are worthwhile to consider.
+However,
+the
+*way*
+the apply to Python is sometimes not obvious.
+Often,
+taking the concepts too literally means
+using Python badly.
+
 \begin{frame}[fragile]
 \frametitle{Why declare interfaces?}
 
 Explicit is better than implicit
 \end{frame}
+
+A central concept in OO programming is that of the "interface".
+Traditionally,
+people have written in "duck-type Python",
+which is a 90s name for what would be called,
+in the 21st century,
+"if it fits, it sits".
+The way to know if an object will fit a method is to send it,
+and as long as it responds correctly to attribute access,
+everything is fine.
+
+This led to a lot of gnashing of teeth around questions like
+"is every sequence slicable"?
+and
+"what is an easy way to say 'file object that can't be seeked".
+In a complex system,
+it is useful to be explicit about the interfaces intended to be
+implemented.
+
 
 \begin{frame}[fragile]
 \frametitle{Declaring interfaces with zope.interface}
