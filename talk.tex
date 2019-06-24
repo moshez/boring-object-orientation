@@ -56,8 +56,6 @@ Liskov substitution,
 Interface segregation,
 and Dependency inversion.
 
-
-
 \begin{frame}[fragile]
 \frametitle{Do OO design principles work?}
 
@@ -102,7 +100,6 @@ In a complex system,
 it is useful to be explicit about the interfaces intended to be
 implemented.
 
-
 \begin{frame}[fragile]
 \frametitle{Declaring interfaces with zope.interface}
 
@@ -115,11 +112,31 @@ class ISprite(interface.Interface):
         "The bounding box"
     )
 
-    def intersects(self, box):
+    def intersects(box):
         "Does this intersect with a box"
 \end{lstlisting}
 
 \end{frame}
+
+One of the ways we can explicitly declare interfaces is with
+zope.interface.
+This library focuses on interfaces:
+declaring them,
+declaring who implements them
+and verifying that implementors adhered to the contract.
+Interfaces are
+*not*
+usable as superclasses.
+
+Also note that the {\em interface} methods
+are {\em not} declared with self.
+The reasoning is that the interface shows how the method
+will be called.
+Because they are not super-classes,
+interfaces can be used to define data attributes.
+This is important for a language like Python,
+where part of the public contract might well be
+"you can access x to get the x co-ordinate".
 
 \begin{frame}[fragile]
 \frametitle{Testing for interface provision}
@@ -133,6 +150,16 @@ def test_implementation():
 \end{lstlisting}
 
 \end{frame}
+
+It is possible to test that implementations comply with interfaces.
+Of course,
+the test is often partial:
+it will not test anything only mentioned in the documentation,
+and will not even test that the methods can be called without exceptions!
+However,
+it does check that the right methods and attributes exist.
+This is a nice addition to the unit-test suite,
+and at list will prevent simple misspellings from passing the tests.
 
 \begin{frame}[fragile]
 \frametitle{Interesting constructor}
@@ -148,6 +175,31 @@ class Stuff:
 \end{lstlisting}
 
 \end{frame}
+
+Interesting constructors might create a new object,
+or engage in IO methods.
+This means that the object cannot be created without it.
+It ties the object inexorably to the specifics of the IO
+and to the specific class it creates.
+This is often a premature binding.
+Doing IO means having to work around the need for IO
+in some cases,
+such as unit tests.
+It also means we have a defined a specific operating-system resource,
+in this case a file,
+while nowhere else in the code do we need to make that assumption.
+
+Finally,
+when constructors
+*fail*
+we are left,
+temporarily at least with an object,
+self,
+which is invalid.
+This means that it might be impossible to print it in a debugger
+or a verbose stack trace since the "repr" implementation
+might refer to the "finput" attribute.
+
 
 \begin{frame}[fragile]
 \frametitle{Boring constructor}
