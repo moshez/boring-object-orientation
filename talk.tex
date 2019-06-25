@@ -222,6 +222,34 @@ class Stuff:
 
 \end{frame}
 
+In contrast,
+boring constructors don't do anything.
+They just copy arguments to object attributes.
+This means they cannot fail,
+and we can easily substitute other input variables if we need
+different behaviors.
+This means unit testing is made simpler,
+and we have a well defined object at any time.
+
+The original logic was important though.
+The best place for it is often in a so-called
+"named constructor":
+a class method which builds the requisite underlying parameters,
+and then creates the object.
+The nice thing is that named constructors
+*can*
+fail.
+When they fail,
+they have no partially constructed object.
+
+Not only can they fail,
+but they can do more interesting things.
+For example,
+named constructors can be async methods
+which do not return the object
+but rather a future of an object
+that can be "await"ed upon.
+
 
 \begin{frame}[fragile]
 \frametitle{Why boring constructors}
@@ -232,6 +260,15 @@ class Stuff:
 \end{itemize}
 
 \end{frame}
+
+Boring constructors make our code more boring.
+More predictable.
+It is easy to guess what is a complicated operation
+and what is not.
+Because of that,
+we can read and understand code better.
+We can make code that is easier to test,
+and even easier to write logs from.
 
 \begin{frame}[fragile]
 \frametitle{Using attrs}
@@ -246,6 +283,22 @@ class Stuff:
 \end{lstlisting}
 
 \end{frame}
+
+The "downside" of boring objects is that they
+are boring to write.
+The constructor ends up being duplicated code:
+every single attribute name is written three times.
+The temptation to spice things up a bit is irresistable.
+
+An alternative to spicing things up
+is to avoid the temptation altogether.
+By using attrs,
+the computer writes the boring constructor for us.
+Doing boring things is one things which computers absolutely love!
+By making our constructor boring,
+we got to the point where a dumb computer can write it.
+
+This frees us up to do the fun parts!
 
 \begin{frame}[fragile]
 \frametitle{Immutable objects}
@@ -266,6 +319,16 @@ attr.exceptions.FrozenInstanceError
 
 \end{frame}
 
+Once we have decided to use attrs to write boring objects,
+we can take advantage of another feature it offers
+for free:
+immutability.
+Immutable objects solve the age-old dilemma of avoiding shared mutable state.
+Solving it with careful sharing is hard:
+why not attack the other horn of the dilemma,
+and cut off the immutability?
+Immutability is a powerful guarantee.
+
 \begin{frame}[fragile]
 \frametitle{Immutablity as bug avoidance}
 
@@ -276,11 +339,30 @@ def some_function(some_list=[]):
 
 \end{frame}
 
+We can use immutability to avoid bugs.
+For example,
+instead of accidentally sharing a mutable object
+as an implicit global,
+and get weird action at a distance,
+we can...
+just not!
+We share the object,
+but now that it's immutable,
+we do not have to worry who else has a reference.
+
 \begin{frame}[fragile]
 \frametitle{Immutablity as interface simplifying}
 
 No variation, no invariant breakage!
 \end{frame}
+
+Immutability often lets us make more data attributes public.
+We do not need to be concerned about them changing,
+so we can allow direct access.
+This is one powerful way to avoid either Java-style
+getters
+or Python's distance cousin,
+the properties.
 
 \begin{frame}[fragile]
 \frametitle{Frozen attrs}
@@ -298,6 +380,17 @@ No variation, no invariant breakage!
 \end{lstlisting}
 
 \end{frame}
+
+Immutabitliy means we cannot change objects in-place.
+However,
+with boring objects
+and attrs' evolve functionality,
+creating a copy which only modifies a handful of attributes is useful.
+This means that we can easily do counters or other
+"mutable" objects
+by creating near copies.
+Python will take care of deleting objects with no references,
+but no shared references will be modified!
 
 \begin{frame}[fragile]
 \frametitle{Private methods}
