@@ -407,6 +407,24 @@ class HTTPSession:
     
 \end{frame}
 
+Private methods are problematic.
+Why are they private?
+Presumably,
+it is possible to misuse them.
+How carefully do we document what is correct use?
+Very often,
+not at all.
+They are usually the result of semi-mechanical refactoring.
+Instead,
+it is better to make them
+*public methods*
+on a
+*private instance variable*.
+This will allow them to be clearly documented and tested.
+The class can still be in an internal module.
+But now the class will have clear documentation
+and contract.
+
 \begin{frame}[fragile]
 \frametitle{Refactoring private methods away}
 
@@ -423,6 +441,14 @@ class HTTPSession:
 \end{lstlisting}
     
 \end{frame}
+
+The process of removing private methods is straight-forward:
+check which instance variables they touch,
+move those to a separate class,
+and then move the method.
+It is often the case that the set of instance variables
+will
+make sense as its own class.
 
 \begin{frame}[fragile]
 \frametitle{Methods}
