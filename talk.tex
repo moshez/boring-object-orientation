@@ -474,12 +474,47 @@ class Point3D:
 
 \end{frame}
 
+Finally,
+we need to ask the ultimate question:
+are methods even useful?
+Sometimes they are!
+I am happy Python has methods.
+But maybe,
+just maybe,
+we can avoid using them for everything.
+Why not write functions?
+Since all the attributes above are public,
+we could implement a function.
+
+The usual answer is "polymorphism".
+The right logic for "distance_from_origin" is called automatically,
+regardless of the class.
+The caller does not have to care!
+This is what methods accomplish.
+
 \begin{frame}[fragile]
 \frametitle{Why not methods?}
 
 Bloats classes
 
 \end{frame}
+
+In return,
+methods can make classes big and cumbersome.
+Distance from origin?
+What about "double"?
+Or a general "increase by factor of X"?
+What about the New York norm
+(sum of all absolute values)?
+The max norm?
+The p-norm?
+Sure,
+I'm a math geek,
+but these are points,
+math objects.
+
+If they were web requests,
+all the web geeks would be thinking up methods!
 
 \begin{frame}[fragile]
 \frametitle{singledispatch example}
@@ -511,6 +546,14 @@ def distance_3d(thing):
 
 \end{frame}
 
+We can have polymorphism without methods.
+Singledispatch solves that problem neatly.
+We can put all the functions together,
+and have the right code switch.
+If someone adds their own class,
+they can register their own implementation.
+Code organization is divorced from the needs
+of polymorphism.
 
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Examples in the wild}
