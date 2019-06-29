@@ -566,11 +566,46 @@ of polymorphism.
 
 \end{frame}
 
+A lot of frameworks and systems have as their official API
+"take this class and subclass it".
+One of the earliest to take this tack was Twisted.
+The way to write a protocol parser is to inherit from the
+"Protocol"
+class.
+But we were not the only ones!
+Django quickly followed in our footsteps.
+The official tutorial first few code examples
+cover how to make a new model:
+by inheriting from the
+"Model"
+class.
+Not to be left behind,
+newcomer Jupyter,
+winner an ACM award,
+suggests writing a new kernel
+by...
+inheriting from the
+"Kernel"
+class.
+
+If everyone is doing it,
+does that mean it is a good idea?
+
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Issues}
 
 "Shared everything"
 \end{frame}
+
+A subclass shares
+"everything"
+with its parent class.
+This means even private methods in the superclass
+can interact in funny
+(and surprising)
+ways.
+We do not like private methods,
+but even private attributes pose similar issues.
 
 \begin{frame}[fragile]
 \frametitle{Composition}
@@ -581,6 +616,27 @@ of polymorphism.
 \end{itemize}
 
 \end{frame}
+
+In contrast,
+composition allows to separate the two concerns:
+what interface are we supposed to be *exporting*?
+This is a matter of documentation.
+The other concern is
+"what can help us achieve that interface":
+a class that supplies some interface:
+potentially a sub-interface,
+but not necessarily.
+
+For example,
+the exported interface might be something like
+"key value store",
+and the helper class might just supply raw IO primitives.
+That does not matter.
+The external interface is clearly specified,
+and the helper class's interface is clearly specified.
+
+Everything in its place,
+and a place for everything.
 
 \begin{frame}[fragile]
 \frametitle{Composition example}
@@ -619,6 +675,16 @@ class Sprite:
 \end{lstlisting}
 
 \end{frame}
+
+The frequent complaint is that this leads to a lot of
+"explicit forwarding".
+This can be mitigated by auto-generating code based on the interface.
+I would recommend Twisted's proxyForInterface here...
+except that its official API is,
+you guessed it,
+by inheritance.
+Nonetheless,
+it is a good piece of inspiration.
 
 \begin{frame}[fragile]
 \frametitle{Python: Language of the free}
