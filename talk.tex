@@ -693,6 +693,12 @@ Diamond inheritance with overriddable constructors as mandatory interface?
 Sure!
 \end{frame}
 
+Python will let you get away with a lot of things.
+You can use complicated super-based hierarchies to manage
+your API.
+You can vary the arguments to dunder-init.
+Nothing will stop you.
+
 \begin{frame}[fragile]
 \frametitle{With Great Power}
 
@@ -700,11 +706,29 @@ Diamond inheritance with overriddable constructors as mandatory interface?
 ....Maybe not!
 \end{frame}
 
+Except your good sense and your desire for maintainable code.
+Just knowing the Python language semantics is not enough.
+Care must be given to writing your code in a way that makes maintaining
+it easy,
+and that makes using it pleasant.
+
 \begin{frame}[fragile]
 \frametitle{Lessons Learned}
 
-Big systems, big headaches
+\begin{itemize}
+\item Do as we say, not as we do
+\item Big systems, big headaches
+\end{itemize}
+
 \end{frame}
+
+The wrong lesson to take from big Python systems is how they are written.
+Most of them were written by people who have learned the lessons
+as they wrote them.
+This means that often,
+some warts were left there.
+Instead of copying them,
+talk to people who wrote them and ask how to do it.
 
 \begin{frame}[fragile]
 \frametitle{Less interesting code}
@@ -712,5 +736,8 @@ Big systems, big headaches
 Be dumb as possible when writing code.
 
 \end{frame}
+
+Maintaining code is hard.
+Write simpler code to make maintainance easier.
 
 \end{document}
