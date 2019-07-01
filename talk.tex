@@ -487,7 +487,7 @@ Since all the attributes above are public,
 we could implement a function.
 
 The usual answer is "polymorphism".
-The right logic for "distance_from_origin" is called automatically,
+The right logic for \lstinline!distance_from_origin!
 regardless of the class.
 The caller does not have to care!
 This is what methods accomplish.
@@ -522,7 +522,7 @@ all the web geeks would be thinking up methods!
 \begin{lstlisting}
 @attr.s(auto_attribs=True, frozen=True)
 class Point2D:
-    x: float
+    x: float;
     y: float
 
 @attr.s(auto_attribs=True, frozen=True)
@@ -530,18 +530,31 @@ class Point3D:
     x: float
     y: float
     z: float
+\end{lstlisting}
 
+\end{frame}
+
+The core parts of the class fit on one slide.
+There is no logic to obscure what points are.
+The logic,
+helpfully,
+fits on a different slide which captures just that.
+
+\begin{frame}[fragile]
+\frametitle{singledispatch example}
+
+\begin{lstlisting}
 @functools.singledispatch
-def distance_from_origin(thing):
-    raise NotImplementedError(thing)
+def distance_from_origin(pt):
+    raise NotImplementedError(point)
 
 @distance_from_origin.register(Point2D)
-def distance_2d(thing):
-    return (thing.x**2 + thing.y**2) ** 0.5
+def distance_2d(pt):
+    return (pt.x**2 + pt.y**2) ** 0.5
 
 @distance_from_origin.register(Point3D)
-def distance_3d(thing):
-    return (thing.x**2 + thing.y**2 + thing.z**2) ** 0.5
+def distance_3d(pt):
+    return (pt.x**2 + pt.y**2 + pt.z**2) ** 0.5
 \end{lstlisting}
 
 \end{frame}
