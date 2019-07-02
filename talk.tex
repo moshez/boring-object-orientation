@@ -77,6 +77,23 @@ taking the concepts too literally means
 using Python badly.
 
 \begin{frame}[fragile]
+\frametitle{Principles}
+
+Make your objects more boring!
+The simple tricks that they don't want you to know!
+
+\begin{itemize}
+\item Declare interfaces\pause 
+\item Simplify initialization\pause
+\item Avoid mutation\pause
+\item Avoid hiding\pause
+\item Avoid methods
+\item Avoid inheritance
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{Why declare interfaces?}
 
 Explicit is better than implicit
@@ -652,11 +669,6 @@ Everything in its place,
 and a place for everything.
 
 \begin{frame}[fragile]
-\frametitle{Composition example}
-Sans-IO
-\end{frame}
-
-\begin{frame}[fragile]
 \frametitle{Composition: Simple example}
 \begin{lstlisting}
 class IMovable(interface.Interface):
@@ -664,7 +676,13 @@ class IMovable(interface.Interface):
     y_position = interface.Attribute()
     def tick():
         pass
+\end{lstlisting}
 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Composition: Simple example}
+\begin{lstlisting}
 @interface.implementer(IMovable)
 @attr.s(auto_attribs=True):
 class StraightLine:
@@ -675,7 +693,13 @@ class StraightLine:
     def tick(self):
         self.x_position += dx
         self.y_position += dy
+\end{lstlisting}
 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Composition: Simple example}
+\begin{lstlisting}
 @interface.implementer(IMovable)
 @attr.s(auto_attribs=True):
 class Sprite:
