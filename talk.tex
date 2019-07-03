@@ -588,11 +588,63 @@ of polymorphism.
 \begin{frame}[fragile]
 \frametitle{Inheritance-as-API: Examples in the wild}
 
-\begin{itemize}
-\item Twisted \pause
-\item Django \pause
-\item Jupyter
-\end{itemize}
+\begin{lstlisting}
+# From the Twisted tutorial
+class FingerProtocol(basic.LineReceiver):
+    def lineReceived(self, user):
+        self.transport.write(b"No such user\r\n")
+        self.transport.loseConnection()
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Inheritance-as-API: Examples in the wild}
+
+\begin{lstlisting}
+# From the Django tutorial
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Inheritance-as-API: Examples in the wild}
+
+\begin{lstlisting}
+# From the Jupyter documentation
+
+class EchoKernel(Kernel):
+    implementation = 'Echo'
+    implementation_version = '1.0'
+    language = 'no-op'
+    language_version = '0.1'
+    language_info = {
+        'name': 'Any text',
+        'mimetype': 'text/plain',
+        'file_extension': '.txt',
+    }
+    banner = "Echo kernel - as useful as a parrot"
+
+    def do_execute(self, code, silent, store_history=True, user_expressions=None,
+                   allow_stdin=False):
+        if not silent:
+            stream_content = {'name': 'stdout', 'text': code}
+            self.send_response(self.iopub_socket, 'stream', stream_content)
+
+        return {'status': 'ok',
+                # The base class increments the execution count
+                'execution_count': self.execution_count,
+                'payload': [],
+                'user_expressions': {},
+               }
+\end{lstlisting}
 
 \end{frame}
 
