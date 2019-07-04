@@ -5,7 +5,7 @@
 \title{Boring Object Orientation}
 \subtitle{Boring is better than interesting}
 \author{Moshe Zadka -- https://cobordism.com}
-\date{PyBay 2019}
+\date{2019}
 
 \begin{document}
 \begin{titlepage}
@@ -478,7 +478,14 @@ class Point2D:
 
     def distance_from_origin(self):
         return (self.x**2 + self.y**2) ** 0.5
+\end{lstlisting}
 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Methods}
+
+\begin{lstlisting}
 @attr.s(auto_attribs=True, frozen=True)
 class Point3D:
     x: float
@@ -486,7 +493,9 @@ class Point3D:
     z: float
 
     def distance_from_origin(self):
-        return (self.x**2 + self.y**2 + self.z**2) ** 0.5
+        return (self.x**2 +
+                self.y**2 +
+                self.z**2) ** 0.5
 \end{lstlisting}
 
 \end{frame}
@@ -757,10 +766,13 @@ class StraightLine:
 class Sprite:
      _movable: IMovable
      @property
-     def x_position(self): return self._movable.x_position
+     def x_position(self):
+         return self._movable.x_position
      @property
-     def y_position(self): return self._movable.y_position
-     def tick(self): return self._movable.tick()
+     def y_position(self):
+         return self._movable.y_position
+     def tick(self):
+         return self._movable.tick()
 \end{lstlisting}
 
 \end{frame}
