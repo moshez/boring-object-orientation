@@ -35,12 +35,12 @@ Guidelines to code that is easy to maintain
 
 As object-oriented programming matured,
 the discipline of
-*object-oriented design* started forming.
+{\em object-oriented design} started forming.
 This discipline is meant to give guidance
 about mapping the
-*problem domain*
+{\em problem domain}
 to the
-*class and object structure*.
+{\em class and object structure}.
 
 Concepts like the difference between
 has-a
@@ -163,7 +163,7 @@ from zope.interface import verify
 
 def test_implementation():
     sprite = make_sprite()
-    verify.verifyObject(ISprit, sprite)
+    verify.verifyObject(ISprite, sprite)
 \end{lstlisting}
 
 \end{frame}
@@ -208,7 +208,7 @@ while nowhere else in the code do we need to make that assumption.
 
 Finally,
 when constructors
-*fail*
+{\em fail}
 we are left,
 temporarily at least with an object,
 self,
@@ -254,7 +254,7 @@ The best place for it is often in a so-called
 a class method which builds the requisite underlying parameters,
 and then creates the object.
 The nice thing is that named constructors
-*can*
+{\em can}
 fail.
 When they fail,
 they have no partially constructed object.
